@@ -61,6 +61,11 @@
                     ],
                     "default": "Online",
                     "description": "Open online documentation or local documentation when clicking a function."
+                },
+                "houdiniVEX.houdiniVexZipPath": {
+                    "type": "string",
+                    "default": "C:/Program Files/Side Effects Software/Houdini 19.5.682/houdini/help/vex.zip",
+                    "description": "houdini vex.zip path, example: C:/Program Files/Side Effects Software/Houdini XX.Y.ZZZ/houdini/help/vex.zip"
                 }
             }
         },
