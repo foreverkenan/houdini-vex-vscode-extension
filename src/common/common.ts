@@ -1,4 +1,6 @@
 import * as vscode from "vscode";
+import { exec } from 'child_process';
+import * as path from 'path';
 
 export function activate(context: vscode.ExtensionContext) {
     const language = "vex";
@@ -6,8 +8,11 @@ export function activate(context: vscode.ExtensionContext) {
     const settingId = "helpDocumentation";
     const keywordsFilePath = "/completions/keywords.txt";
     const functionsFilePath = "/completions/functions.txt";
+    const exeFilePath = "/exe/readHouHelp.exe";
+    const houdiniVexZipPath = "C:/Users/forever/Desktop/vex.zip";
     const config = vscode.workspace.getConfiguration(extensionId).get<string>(settingId)!;
     const extensionUri = context.extensionUri;
+    readHouHelp(exeFilePath, houdiniVexZipPath, functionsFilePath, extensionUri);
     const keywords = readFile(keywordsFilePath, extensionUri).then(data => data!.split("\n"));
     const functions = readFile(functionsFilePath, extensionUri).then(data => data!.split("\n"));
     let docsJson: any;
@@ -104,5 +109,34 @@ async function readFile(path: string, extensionUri: vscode.Uri): Promise<string 
     } catch (error) {
         console.error('Failed to read file:', error);
         return undefined;
+    }
+}
+
+function runExecutable(command: string) {
+    return new Promise((resolve, reject) => {
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`执行命令 ${command} 发生错误: ${error}`);
+                reject(error);
+            }
+            if (stderr) {
+                console.error(`命令 ${command} 执行产生了错误输出: ${stderr}`);
+                reject(stderr);
+            }
+            console.log(`命令 ${command} 的输出: ${stdout}`);
+            resolve(stdout);
+        });
+    });
+}
+
+async function readHouHelp(exeFilePath: string, houdiniVexZipPath: string, functionsFilePath: string, extensionUri: vscode.Uri) {
+    const args = [houdiniVexZipPath,
+        path.join(extensionUri.fsPath, functionsFilePath)];
+    const command: string = `${path.join(extensionUri.fsPath, exeFilePath)} ${args.join(' ')}`;
+    try {
+        const output = await runExecutable(command);
+        vscode.window.showInformationMessage(`命令 ${command} 的输出: ${output}`);
+    } catch (error) {
+        vscode.window.showErrorMessage(`执行命令 ${command} 时出错: ${error}`);
     }
 }
