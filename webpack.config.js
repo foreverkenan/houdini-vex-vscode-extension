@@ -55,7 +55,8 @@ const browserConfig = {
     resolve: {
         extensions: ['.ts', '.js'],
         fallback: {
-            path: require.resolve('path-browserify')
+            path: require.resolve('path-browserify'),
+            "child_process": false,
         }
     },
     module: {

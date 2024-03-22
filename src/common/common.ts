@@ -130,9 +130,10 @@ function runExecutable(command: string) {
 }
 
 async function GenFunctionsTxtFromVexZip(exeFilePath: string, houdiniVexZipPath: string, functionsFilePath: string, extensionUri: vscode.Uri) {
-    const args = [houdiniVexZipPath,
-        path.join(extensionUri.fsPath, functionsFilePath)];
+    const args = [`"${houdiniVexZipPath}"`,
+        `"${path.join(extensionUri.fsPath, functionsFilePath)}"`];
     const command: string = `${path.join(extensionUri.fsPath, exeFilePath)} ${args.join(' ')}`;
+    console.log("cmd is :", command);
     try {
         const output = await runExecutable(command);
         console.log(`command: ${command}, output: ${output}`);
