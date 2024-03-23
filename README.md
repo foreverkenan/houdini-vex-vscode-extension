@@ -1,5 +1,55 @@
 # Houdini VEX for VS Code
 
+fork改进：从houdini安装目录的vex.zip加载vex函数声明的提示
+
+作为HDK扩展的vex函数，只需要维护hdk的dll和vex.zip即可
+
+vex.zip内的txt必须保证函数名为txt的文件名，同时函数声明必须以:usage:开头，使用`把声明括起来
+
+其他内容暂时可有可无
+
+如vex.zip/functions/abs.txt
+```txt
+= abs =
+
+#type: vex
+#context: all
+#tags: math, number
+#group: math
+
+"""Returns the absolute value of the argument."""
+
+:usage:`int abs(int n)`
+:usage:`float abs(float n)`
+:usage:`<vector> abs(<vector> v)`
+
+    Returns the absolute (positive) equivalent of the number. For vectors, this is done per-component.
+
+
+@examples
+
+:box:Scalar example
+    {{{
+    #!vex
+    if (abs(n) > 1) {
+        // n is greater than 1 or less than -1
+    }
+    }}}
+
+:box:Vector example
+    {{{
+    #!vex
+    vector v = {1.0, -0.5, 1.1}
+    if (abs(v) > 1.0) {
+        // vector is greater than unit scale
+    }
+    }}}
+
+@related
+
+- [Vex:sign]
+```
+
 ## Features
 
 - Syntax Highlighting
