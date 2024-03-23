@@ -52,6 +52,11 @@ vex.zip内的txt必须保证函数名为txt的文件名，同时函数声明必�
 
 - [Vex:sign]
 ```
+
+测试用npm run compile然后vsc里打开ts文件再选run and debug再选vscode dev
+
+打包用vsce package
+
 ## Features
 
 - Syntax Highlighting
