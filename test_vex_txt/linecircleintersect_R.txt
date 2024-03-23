@@ -1,0 +1,13 @@
+= linecircleintersect_R =
+
+#type: vex
+#context: all
+#tags: intersect
+#group: math
+
+"""Computes the intersection of a 2D circle and a line."""
+
+:usage: `void linecircleintersect_R(vector line_pos0, vector line_pos1, vector circle_pos, float circle_r, vector &intersect_pos)`
+
+https://www.bilibili.com/video/BV1uu411B7ed/
+(bilibli：沙漠飞鸿)

@@ -1,0 +1,14 @@
+= lineplaneintersect_R =
+
+#type: vex
+#context: all
+#tags: intersect
+#group: math
+
+"""Computes the intersection of a line and an infinite 3D plane."""
+
+:usage: `void lineplaneintersect_R(vector line_pos0, vector line_pos1, vector plane_pos, vector plane_normal, vector &intersect_pos)`
+:usage: `void lineplaneintersect_R(vector line_pos0, vector line_pos1, vector plane_pos0, vector plane_pos1, vector plane_pos2, vector &intersect_pos)`
+
+Use the position and normal of any point on the surface (use 1 pos + 1 nor)
+Or use the position of three points (use 3 pos)

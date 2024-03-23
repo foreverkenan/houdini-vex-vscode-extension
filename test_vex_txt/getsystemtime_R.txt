@@ -1,0 +1,10 @@
+= getsystemtime_R =
+
+#type: vex
+#context: all
+
+"""Returns the system time."""
+
+:usage:`string getsystemtime_R()`
+
+    Year-Mon-Day Hour:Min:Sec

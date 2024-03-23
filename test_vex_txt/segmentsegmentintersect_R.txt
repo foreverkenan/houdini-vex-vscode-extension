@@ -1,0 +1,12 @@
+= segmentsegmentintersect_R =
+
+#type: vex
+#context: all
+#tags: intersect
+#group: math
+
+"""Computes the intersection of two segments."""
+
+:usage: `int segmentsegmentintersect_R(vector line0_pos0, vector line0_pos1, vector line1_pos0, vector line1_pos1, vector &intersect_pos)`
+
+Returns 1 if two segments intersect, Otherwise returns 0.  Parallel segments will return 0.

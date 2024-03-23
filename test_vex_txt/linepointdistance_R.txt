@@ -1,0 +1,12 @@
+= linepointdistance_R =
+
+#type: vex
+#context: all
+#tags: point, measure
+#group: measure
+
+"""Computes the distance of a point to a line."""
+
+:usage: `float linepointdistance_R(vector point_pos, vector line_pos0, vector line_pos1)`
+
+Line, NOT ray, NOT segment.

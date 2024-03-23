@@ -1,0 +1,13 @@
+= segmentpointdistance2_R =
+
+#type: vex
+#context: all
+#tags: point, measure
+#group: measure
+
+"""Computes the squared distance of a point to a segment."""
+
+:usage: `float segmentpointdistance2_R(vector point_pos, vector line_pos0, vector line_pos1)`
+
+Segment, NOT line.
+Squared distance, distance multiply distance.

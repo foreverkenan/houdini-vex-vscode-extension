@@ -1,0 +1,12 @@
+= segmentsegmentdistance_R =
+
+#type: vex
+#context: all
+#tags: point, measure
+#group: measure
+
+"""Returns the distance between two segments."""
+
+:usage: `float segmentsegmentdistance_R(vector line0_pos0, vector line0_pos1, vector line1_pos0, vector line1_pos1)`
+
+segment, NOT necessarily parallel.

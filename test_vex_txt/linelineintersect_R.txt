@@ -1,0 +1,13 @@
+= linelineintersect_R =
+
+#type: vex
+#context: all
+#tags: intersect
+#group: math
+
+"""Computes the intersection of two lines."""
+
+:usage: `float linelineintersect_R(vector line0_pos0, vector line0_pos1, vector line1_pos0, vector line1_pos1, vector &intersect_pos0, vector &intersect_pos1)`
+
+This function returns a value which indicates how close to being parallel the lines are. Closer to zero means more parallel.
+This is done so that the user of thisfunction can decide what epsilon they want to use.

@@ -1,0 +1,21 @@
+= randrange_R =
+
+#type: vex
+#context: all
+#tags: random
+#group: noise
+
+"""Creates a random number between low and high."""
+
+:usage: `int randrange_R(int low, int high)`
+:usage: `float randrange_R(float low, float high)`
+
+theoretically speaking, low <= number <= high
+Create by cpp11 std random_device.
+If keep returning 1, you are using it incorrectly.
+
+:usage: `int rand(float seed, int low, int high)`
+:usage: `float rand(float seed, float low, float high)`
+
+theoretically speaking, low <= number < high
+Create by SYSsrand48 and SYSdrand48.

@@ -12,6 +12,8 @@ vex.zip内的txt必须保证函数名为txt的文件名，同时函数声明必�
 
 如vex.zip/functions/abs.txt
 
+test_vex_txt是测试使用的vex函数描述
+
 ```txt
 = abs =
 

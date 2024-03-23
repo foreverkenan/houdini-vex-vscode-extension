@@ -1,0 +1,16 @@
+= rotate_Rodrigues_R =
+
+#type: vex
+#context: all
+#tags: matrix
+#group: transform
+
+"""Returns the Rodrigues rotate matirx."""
+
+:usage: `matrix rotate_Rodrigues_R(vector axis, float angle)`
+
+angle is degree, not radian
+
+vex:
+vector origin = {1,2,3};
+vector target = rotate_Rodrigues_R({0,1,0},90)*origin;
