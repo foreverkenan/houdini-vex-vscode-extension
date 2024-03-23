@@ -1,5 +1,7 @@
 # Houdini VEX for VS Code
 
+改进不在main分支，在auto_vexzip分支
+
 fork改进：从houdini安装目录的vex.zip加载vex函数声明的提示
 
 作为HDK扩展的vex函数，只需要维护hdk的dll和vex.zip即可
