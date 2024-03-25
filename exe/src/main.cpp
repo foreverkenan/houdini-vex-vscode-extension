@@ -106,7 +106,8 @@ std::string replaceReturnType(const std::string& input)
 		std::string parameterList = matches[2];
 
 		// 用逗号分割参数列表
-		std::regex paramPattern("\\s*,\\s*");
+		//std::regex paramPattern("\\s*,\\s*");
+		std::regex paramPattern("\\s*[;,]\\s*");	//有时是逗号 有时是分号
 		std::sregex_token_iterator it(parameterList.begin(), parameterList.end(), paramPattern, -1);
 		std::sregex_token_iterator end;
 
