@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <regex>
 #include "miniz.h"
 
 void list_files_in_zip(const char* zip_file_path, std::vector<std::string>& out_path)
@@ -24,7 +25,7 @@ void list_files_in_zip(const char* zip_file_path, std::vector<std::string>& out_
 			return;
 		}
 
-		char path[256];//°üÀ¨Ïà¶ÔÂ·¾¶
+		char path[256];//åŒ…æ‹¬ç›¸å¯¹è·¯å¾„
 		if (!mz_zip_reader_get_filename(&zip_archive, i, path, sizeof(path)))
 		{
 			std::cerr << "Failed to get filename" << std::endl;
@@ -32,13 +33,13 @@ void list_files_in_zip(const char* zip_file_path, std::vector<std::string>& out_
 			return;
 		}
 
-		//Ö»Ìí¼ÓfunctionsÎÄ¼ş¼ĞÄÚµÄ
+		//åªæ·»åŠ functionsæ–‡ä»¶å¤¹å†…çš„
 		const char* is_fun = "functions/";
 		const char* is_txt = ".txt";
 		if (strstr(path, is_fun) != NULL
 			&& strstr(path, is_txt) != NULL)
 		{
-			//pathÎªfunctions/*.txt
+			//pathä¸ºfunctions/*.txt
 			out_path.push_back(path);
 		}
 	}
@@ -90,57 +91,56 @@ std::string read_file_from_zip(const char* zip_file_path, const char* file_name)
 
 	return file_content;
 }
-#include <regex>
 
-std::string replaceReturnType(const std::string& input) 
+std::string replaceReturnType(const std::string& input)
 {
-	// ¶¨ÒåÆ¥ÅäÄ£Ê½
+	// å®šä¹‰åŒ¹é…æ¨¡å¼
 	std::regex pattern("([a-zA-Z_][a-zA-Z0-9_]*)\\(([^)]*)\\)");
 
-	// Ö´ĞĞÆ¥Åä
+	// æ‰§è¡ŒåŒ¹é…
 	std::smatch matches;
-	if (std::regex_search(input, matches, pattern)) 
+	if (std::regex_search(input, matches, pattern))
 	{
-		// ÌáÈ¡º¯ÊıÃûºÍ²ÎÊıÁĞ±í
+		// æå–å‡½æ•°åå’Œå‚æ•°åˆ—è¡¨
 		std::string functionName = matches[1];
 		std::string parameterList = matches[2];
 
-		// ÓÃ¶ººÅ·Ö¸î²ÎÊıÁĞ±í
+		// ç”¨é€—å·åˆ†å‰²å‚æ•°åˆ—è¡¨
 		//std::regex paramPattern("\\s*,\\s*");
-		std::regex paramPattern("\\s*[;,]\\s*");	//ÓĞÊ±ÊÇ¶ººÅ ÓĞÊ±ÊÇ·ÖºÅ
+		std::regex paramPattern("\\s*[;,]\\s*");	//æœ‰æ—¶æ˜¯é€—å· æœ‰æ—¶æ˜¯åˆ†å·
 		std::sregex_token_iterator it(parameterList.begin(), parameterList.end(), paramPattern, -1);
 		std::sregex_token_iterator end;
 
-		std::string replacement = input + "#" + functionName + "("; // ¿ªÊ¼Ìæ»»×Ö·û´®
-		bool firstParam = true; // ÓÃÓÚ¸ú×ÙÊÇ·ñÊÇ²ÎÊıÁĞ±íÖĞµÄµÚÒ»¸ö²ÎÊı
+		std::string replacement = input + "#" + functionName + "("; // å¼€å§‹æ›¿æ¢å­—ç¬¦ä¸²
+		bool firstParam = true; // ç”¨äºè·Ÿè¸ªæ˜¯å¦æ˜¯å‚æ•°åˆ—è¡¨ä¸­çš„ç¬¬ä¸€ä¸ªå‚æ•°
 
-		// ±éÀú²ÎÊıÁĞ±í
+		// éå†å‚æ•°åˆ—è¡¨
 		int index = 1;
-		while (it != end) 
+		while (it != end)
 		{
-			// ÌáÈ¡²ÎÊı
+			// æå–å‚æ•°
 			std::string parameter = *it;
-			// ½«²ÎÊıÌí¼Óµ½Ìæ»»×Ö·û´®ÖĞ
-			if (!firstParam) 
+			// å°†å‚æ•°æ·»åŠ åˆ°æ›¿æ¢å­—ç¬¦ä¸²ä¸­
+			if (!firstParam)
 			{
 				replacement += ", ";
 			}
-			else 
+			else
 			{
 				firstParam = false;
 			}
-			replacement += "${ " + std::to_string(index++) + ":" + parameter + " }";
+			replacement += "${" + std::to_string(index++) + ":" + parameter + "}";
 			++it;
 		}
 
-		// Íê³ÉÌæ»»×Ö·û´®
+		// å®Œæˆæ›¿æ¢å­—ç¬¦ä¸²
 		replacement += ")";
 
-		// ·µ»ØÌæ»»ºóµÄ×Ö·û´®
+		// è¿”å›æ›¿æ¢åçš„å­—ç¬¦ä¸²
 		return replacement;
 	}
 	else {
-		// Èç¹ûÃ»ÓĞÆ¥Åä£¬Ôò·µ»ØÔ­Ê¼ÊäÈë
+		// å¦‚æœæ²¡æœ‰åŒ¹é…ï¼Œåˆ™è¿”å›åŸå§‹è¾“å…¥
 		return input;
 	}
 }
@@ -148,7 +148,6 @@ std::string replaceReturnType(const std::string& input)
 int main(int argc, char* argv[])
 {
 	const char* zip_file_path = argv[1];//"C:/Users/forever/Desktop/vex.zip"
-
 	std::vector<std::string> all_files;
 
 	list_files_in_zip(zip_file_path, all_files);
@@ -161,45 +160,107 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
+	std::regex usage_reg(R"(:usage:\s*`(.*)`)");
+	std::regex func_reg(R"(^(\<?\s*\w+(\s*\|\s*\w+)*\s*\>?\s*\[?\]?)\s+(\w+)\s*\(([^)]*)\);?)");
+
+	int error_count = 1;
 	for (const auto& file_name_in_zip : all_files)
 	{
-		//ÄÚ´æÖĞµÄÎÄ¼ş
 		std::string mem_file = read_file_from_zip(zip_file_path,
-			file_name_in_zip.c_str());
+			file_name_in_zip.c_str());	//å†…å­˜ä¸­çš„æ–‡ä»¶
 
-		std::string usage = ":usage:";
-		size_t usage_pos = mem_file.find(usage);
+		std::sregex_iterator it(mem_file.begin(), mem_file.end(), usage_reg);
+		std::sregex_iterator end;
 
-		while (usage_pos != mem_file.npos)
+		int usage_safe = 0;
+		while (it != end)
 		{
-			//¼ÓÉÏusage×ÔÉí³¤¶Èºó ÕÒusageºóµÄµÚÒ»¸ö`
-			size_t need_start_pos = mem_file.find("`", usage_pos + usage.size());
+			std::smatch usage_match;
+			std::string usage_line = it->str();	//usageçš„ä¸€æ•´è¡Œ
+			if (!std::regex_match(usage_line, usage_match, usage_reg))	//æ•´ä¸ªæ–‡ä»¶æ— usage
+				break;
 
-			size_t need_start_pos_plus_one = need_start_pos + 1;
+			if (usage_match.size() != 2)	//usageä¸€æ•´è¡Œæœ‰é”™
+			{
+				std::cerr << "Error. Num:" << error_count << ". File: " << zip_file_path
+					<< " => " << file_name_in_zip
+					<< " Line: " << usage_line
+					<< std::endl;
+				error_count++;
+				break;
+			}
 
-			//ÕÒusageºóµÄµÚ¶ş¸ö`
-			size_t need_end_pos = mem_file.find("`", need_start_pos_plus_one);
+			std::string func = usage_match[1].str();	//å•ä¸ªå‡½æ•°å£°æ˜ ä¸åŒ…æ‹¬usageå’Œä¸¤ç«¯çš„åå¼•å·
 
-			//ËùĞèÒªµÄÄÚÈİ
-			std::string need = mem_file.substr(need_start_pos_plus_one,
-				need_end_pos - need_start_pos_plus_one);
+			std::smatch func_match;
+			if (!std::regex_match(func, func_match, func_reg))	//usageå†…å†™é”™
+			{
+				std::cerr << "Error. Num:" << error_count << ". File: " << zip_file_path
+					<< " => " << file_name_in_zip
+					<< " Func: " << func
+					<< std::endl;
+				error_count++;
+				break;
+			}
 
-			size_t first_space_pos = need.find(" ");
+			std::string return_type = func_match[1].str();	// è¿”å›ç±»å‹
+			std::string function_name = func_match[3].str();	// å‡½æ•°å
+			std::string all_parameter = func_match[4].str();	// å…¨éƒ¨å‚æ•° 
 
-			//È¥³ı·µ»ØÖµÀàĞÍ
-			std::string rm_ret_type = need.substr(first_space_pos + 1, need.size());
+			std::regex pattern("[,;]");
 
-			std::string line = replaceReturnType(rm_ret_type);
+			std::sregex_token_iterator iter(all_parameter.begin(), all_parameter.end(), pattern, -1);
+			std::sregex_token_iterator end;
 
-			outputFile << line << std::endl;
+			std::vector<std::string> parameters;
 
-			usage_pos = mem_file.find(usage, need_end_pos);
+			int para_safe = 0;
+			while (iter != end)
+			{
+				parameters.push_back(iter->str());
+				++iter;
+
+				para_safe++;
+				if (para_safe > 200)
+					return 0;
+			}
+
+			std::string output;
+			output.reserve(400);
+
+			output += function_name + '(';
+			for (int i = 0; i < parameters.size(); i++)
+			{
+				output += parameters[i];
+				if (i != parameters.size() - 1)
+					output += ',';
+			}
+
+			output += ")#" + function_name + '(';
+
+			for (int i = 0; i < parameters.size(); i++)
+			{
+				output += "${" + std::to_string(i + 1) + ':' + parameters[i] + '}';
+				if (i != parameters.size() - 1)
+					output += ',';
+			}
+
+			output += ')';
+
+			outputFile << output << std::endl;
+
+			it++;
+
+			usage_safe++;
+			if (usage_safe > 500)
+				return 0;
 		}
 	}
 
 	outputFile.close();
 
-	std::cout << "all successful";
+	std::cout << "GenFunctionsTxtFromVexZip.exe finish. With "
+		<< error_count - 1 << " error." << std::endl;
 
 	return 0;
 }

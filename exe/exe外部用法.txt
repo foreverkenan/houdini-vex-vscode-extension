@@ -1,0 +1,7 @@
+在当前目录打开cmd或者powershell等
+
+exe名字 Houdini目录的vex.zip完整路径 生成文件路径
+
+如
+
+GenFunctionsTxtFromVexZip.exe "C:\Program Files\Side Effects Software\Houdini 19.5.682\houdini\help\vex.zip" "C:\Users\forever\Desktop\fun.txt"
