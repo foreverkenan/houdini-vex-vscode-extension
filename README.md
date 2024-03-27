@@ -6,6 +6,8 @@ fork改进：从houdini安装目录的vex.zip加载vex函数声明的提示
 
 作为HDK扩展的vex函数，只需要维护hdk的dll和vex.zip即可
 
+`TODO` 函数说明也可能会在自制的包里 路径为<package_root>/help/vex/functions/functionname.txt
+
 vex.zip内的txt必须保证函数名为txt的文件名，同时函数声明必须以:usage:开头，使用`把声明括起来
 
 其他内容暂时可有可无
