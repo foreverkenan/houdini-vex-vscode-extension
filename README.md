@@ -57,7 +57,7 @@ test_vex_txt是测试使用的vex函数描述
 - [Vex:sign]
 ```
 
-测试用npm run compile然后vsc里打开ts文件再选run and debug再选vscode dev
+测试用npm run compile然后vsc里打开ts文件再选run and debug再选VS Code Extension Development
 
 打包用vsce package
 
